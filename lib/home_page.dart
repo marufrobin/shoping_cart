@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,7 +15,9 @@ class HomePage extends StatelessWidget {
 
   Container buildBottomBar(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       height: MediaQuery.of(context).size.height * 0.3,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -22,8 +25,45 @@ class HomePage extends StatelessWidget {
             topRight: Radius.circular(26),
           )),
       child: Column(
-        children: [],
+        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          buildBottomBarText(context, "Delivery", "\$5.99"),
+          buildBottomBarText(context, "Total Price", "\$5.99"),
+          Spacer(),
+          InkWell(
+            onTap: () {},
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 140, vertical: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.black,
+                ),
+                child: Text(
+                  "Pay \$20.99",
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                )),
+          )
+        ],
       ),
+    );
+  }
+
+  Row buildBottomBarText(
+      BuildContext context, String strName, String priceAmount) {
+    return Row(
+      children: [
+        Text(
+          "$strName ",
+          style: TextStyle(color: Colors.black, fontSize: 24),
+        ),
+        DottedLine(
+            direction: Axis.horizontal, lineLength: 140, lineThickness: 2),
+        Text(
+          " ${priceAmount}",
+          style: TextStyle(color: Colors.black, fontSize: 24),
+        )
+      ],
     );
   }
 
