@@ -1,14 +1,107 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:shoping_cart/model/model.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  var listData = ModelData.genaretListData();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: buildAppBar(),
+      body: Container(
+        child: ListView.builder(
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                height: 160,
+                width: 360,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Image.asset(
+                        "${listData[index].productImageName}",
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        children: [
+                          Text(
+                            "${listData[index].productName}",
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "⭐${listData[index].productRating}",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Text(
+                                "📍${listData[index].distance}",
+                                style: TextStyle(fontSize: 18),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "\$${listData[index].proudctPrice}",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.add,
+                                      size: 30,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              Text(
+                                "${listData[index].quantity}",
+                                style:
+                                    TextStyle(fontSize: 60, color: Colors.red),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.remove,
+                                      size: 30,
+                                      color: Colors.white,
+                                    )),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            itemCount: listData.length),
+      ),
       bottomNavigationBar: buildBottomBar(context),
     );
   }
@@ -69,6 +162,7 @@ class HomePage extends StatelessWidget {
 
   AppBar buildAppBar() {
     return AppBar(
+      foregroundColor: Colors.transparent,
       leading: IconButton(
           onPressed: () {},
           icon: Icon(
@@ -81,7 +175,7 @@ class HomePage extends StatelessWidget {
       ),
       elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Colors.transparent,
     );
   }
 }
