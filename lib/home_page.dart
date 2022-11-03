@@ -2,12 +2,19 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:shoping_cart/model/model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   var listData = ModelData.genaretListData();
 
   @override
   Widget build(BuildContext context) {
+    var totalPrice;
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: buildAppBar(),
@@ -54,7 +61,7 @@ class HomePage extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                "\$${listData[index].proudctPrice}",
+                                "\$${listData[index].proudctPrice == null ? listData[index].proudctPrice : listData[index].totalPrice}",
                                 style: TextStyle(fontSize: 20),
                               ),
                               SizedBox(
@@ -66,7 +73,16 @@ class HomePage extends StatelessWidget {
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      totalPrice =
+                                          listData[index].proudctPrice *
+                                              listData[index].quantity;
+                                      listData[index].quantity++;
+                                      listData[index].totalPrice = totalPrice;
+                                      print(totalPrice);
+                                      print(listData[index].quantity);
+                                      setState(() {});
+                                    },
                                     icon: Icon(
                                       Icons.add,
                                       size: 30,
@@ -75,8 +91,8 @@ class HomePage extends StatelessWidget {
                               ),
                               Text(
                                 "${listData[index].quantity}",
-                                style:
-                                    TextStyle(fontSize: 60, color: Colors.red),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
                               ),
                               Container(
                                 margin: EdgeInsets.all(12),
@@ -84,7 +100,18 @@ class HomePage extends StatelessWidget {
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      totalPrice =
+                                          listData[index].proudctPrice *
+                                              listData[index].quantity;
+                                      listData[index].quantity > 1
+                                          ? listData[index].quantity--
+                                          : listData[index].quantity;
+                                      listData[index].totalPrice = totalPrice;
+                                      print(totalPrice);
+                                      print(listData[index].quantity);
+                                      setState(() {});
+                                    },
                                     icon: Icon(
                                       Icons.remove,
                                       size: 30,
@@ -122,7 +149,7 @@ class HomePage extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           buildBottomBarText(context, "Delivery", "\$5.99"),
-          buildBottomBarText(context, "Total Price", "\$5.99"),
+          buildBottomBarText(context, "Total Order", "\$5.99"),
           Spacer(),
           InkWell(
             onTap: () {},
