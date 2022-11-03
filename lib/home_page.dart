@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
           InkWell(
             onTap: () {},
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 140, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 120, vertical: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.black,
