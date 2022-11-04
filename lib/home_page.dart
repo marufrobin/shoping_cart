@@ -12,11 +12,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var listData = ModelData.genaretListData();
 
+  var totalOrder;
+
+  getOrderPrice() {
+    for (var i = 0; i > listData.length; i++) {
+      totalOrder = (listData[i].totalPrice! + listData[i].proudctPrice)!;
+      listData[i].totalOrderPrice = totalOrder;
+
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    getOrderPrice();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var totalPrice;
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Color(0xffFAFAFA).withOpacity(0.8),
       appBar: buildAppBar(),
       body: Container(
         child: ListView.builder(
@@ -61,11 +79,11 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             children: [
                               Text(
-                                "\$${listData[index].proudctPrice == null ? listData[index].proudctPrice : listData[index].totalPrice}",
+                                "\$${listData[index].totalPrice ?? listData[index].proudctPrice}",
                                 style: TextStyle(fontSize: 20),
                               ),
                               SizedBox(
-                                width: 16,
+                                width: 4,
                               ),
                               Container(
                                 margin: EdgeInsets.all(12),
@@ -74,13 +92,16 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: IconButton(
                                     onPressed: () {
+                                      listData[index].quantity++;
                                       totalPrice =
                                           listData[index].proudctPrice *
                                               listData[index].quantity;
-                                      listData[index].quantity++;
                                       listData[index].totalPrice = totalPrice;
                                       print(totalPrice);
                                       print(listData[index].quantity);
+                                      print(
+                                          "Total Order Price: ${listData[index].totalOrderPrice}");
+
                                       setState(() {});
                                     },
                                     icon: Icon(
@@ -101,12 +122,12 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: IconButton(
                                     onPressed: () {
-                                      totalPrice =
-                                          listData[index].proudctPrice *
-                                              listData[index].quantity;
                                       listData[index].quantity > 1
                                           ? listData[index].quantity--
                                           : listData[index].quantity;
+                                      totalPrice =
+                                          listData[index].proudctPrice *
+                                              listData[index].quantity;
                                       listData[index].totalPrice = totalPrice;
                                       print(totalPrice);
                                       print(listData[index].quantity);
@@ -149,8 +170,13 @@ class _HomePageState extends State<HomePage> {
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           buildBottomBarText(context, "Delivery", "\$5.99"),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
           buildBottomBarText(context, "Total Order", "\$5.99"),
-          Spacer(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
           InkWell(
             onTap: () {},
             child: Container(
