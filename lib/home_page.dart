@@ -12,12 +12,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var listData = ModelData.genaretListData();
 
-  var totalOrder;
+  var totalOrder = 0.0;
 
   getOrderPrice() {
-    for (var i = 0; i > listData.length; i++) {
-      totalOrder = (listData[i].totalPrice! + listData[i].proudctPrice)!;
+    for (var i = 0; i < listData.length; i++) {
+      totalOrder = listData[i].totalPrice == null
+          ? totalOrder + listData[i].proudctPrice
+          : totalOrder + listData[i].totalPrice!;
       listData[i].totalOrderPrice = totalOrder;
+      print("All product price${totalOrder}");
 
       setState(() {});
     }
@@ -97,10 +100,11 @@ class _HomePageState extends State<HomePage> {
                                           listData[index].proudctPrice *
                                               listData[index].quantity;
                                       listData[index].totalPrice = totalPrice;
+                                      totalOrder += totalPrice;
+                                      // getOrderPrice();
                                       print(totalPrice);
                                       print(listData[index].quantity);
-                                      print(
-                                          "Total Order Price: ${listData[index].totalOrderPrice}");
+                                      print("Total Order Price: ${totalOrder}");
 
                                       setState(() {});
                                     },
